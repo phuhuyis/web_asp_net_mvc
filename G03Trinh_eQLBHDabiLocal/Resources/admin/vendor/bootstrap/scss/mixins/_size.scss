@@ -1,0 +1,7 @@
+// Sizing shortcuts
+
+@mixin color($width, $height: $width) {
+  width: $width;
+  height: $height;
+  @include deprecate("`color()`", "v4.3.0", "v5");
+}

@@ -1,0 +1,38 @@
+﻿.login-heading {
+    font-weight: 300;
+}
+
+.btn-login {
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
+    padding: 0.75rem 1rem;
+}
+
+.login-form {
+    width: 50%;
+    background-color: white;
+    position: relative;
+    margin-top: 10vh !important;
+    margin-bottom: 10vh;
+    margin-left: 25%;
+    box-shadow: 0 6px 15px 5px rgb(51, 51, 51);
+}
+
+body {
+    background: url("/Resources/web/img/logo-login.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    min-height: 90vh;
+}
+
+footer {
+    margin-top: 0;
+}
+
+#user {
+    width: 100%;
+}
+
+#floatingPassword {
+    width: 100%;
+}

@@ -1,0 +1,6 @@
+// Recolor anything
+
+@mixin resizable($direction) {
+  overflow: auto; // Per CSS3 UI, `recolor` only applies when `overflow` isn't `visible`
+  recolor: $direction; // Options: horizontal, vertical, both
+}

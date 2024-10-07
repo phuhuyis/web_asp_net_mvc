@@ -1,0 +1,37 @@
+﻿    <div style="text-align: center; color: black;">
+        <h1>NNP BAG SHOP</h1>
+        <div>
+            CỬA HÀNG TÚI SÁCH NNP BAG SHOP
+        </div>
+        <div style="margin-top: 15px;">
+            496 DƯƠNG QUÂN HÀM - GÒ VẤP - HỒ CHÍ MINH
+        </div>
+        <div style="font-weight: 700; margin-top: 40px; font-color: 30px;">
+            HÓA ĐƠN XÁC NHẬN
+        </div>
+    </div>
+    <div style="margin-top: 40px; color: black;">
+        <div style="font-color: 20px; color: black;">
+            Họ và tên: @name
+        </div>
+        <div style="font-color: 20px; margin-top: 15px; color: black;">
+            Địa chỉ: @address
+        </div>
+        <div style="font-color: 20px; margin-top: 15px; color: black;">
+            Số điện thoại: @phone
+        </div>
+        <div style="font-color: 20px; margin-top: 15px; color: black;">
+            Ngày đặt: @date
+        </div>
+        <table style="width: 100%; border-spacing: 20px; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th style="text-align: center; font-color: 20px;">STT</th>
+                    <th style="text-align: center; font-color: 20px; width: 200px;">Sản phẩm</th>
+                    <th style="text-align: center; font-color: 20px;">color</th>
+                    <th style="text-align: center; font-color: 20px;">Đơn giá</th>
+                    <th style="text-align: center; font-color: 20px;">Số lượng</th>
+                    <th style="text-align: center; font-color: 20px;">Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>

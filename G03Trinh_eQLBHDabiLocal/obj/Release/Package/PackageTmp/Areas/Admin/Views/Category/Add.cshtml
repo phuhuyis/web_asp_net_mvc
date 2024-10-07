@@ -1,0 +1,84 @@
+﻿
+@{
+    Layout = "~/Areas/Admin/Views/Shared/Layouts/LayoutAdmin.cshtml";
+}
+@model Website.Models.Category
+<!DOCTYPE html>
+
+<html>
+<head>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+        <div class="container-fluid py-1 px-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Trang</a></li>
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Hãng</li>
+                </ol>
+                <h6 class="font-weight-bolder mb-0">Hãng</h6>
+            </nav>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+
+    <div class="container-fluid">
+        <!--Table-->
+        <div class="row mt-5">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="row">
+                            <div class="col-lg-6 col-7">
+                                <h6>Thêm hãng</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body px-2 pb-2">
+                        <!--Table-->
+                        @if (ViewBag.error != null)
+                        {
+                            <div class="alert alert-danger text-white" role="alert">
+                                @ViewBag.error
+                            </div>
+                        }
+                        @if (ViewBag.success != null)
+                        {
+                            <div class="alert alert-success text-white" role="alert">
+                                @ViewBag.success
+                            </div>
+                        }
+                        @using (Html.BeginForm(FormMethod.Post))
+                        {
+                            @Html.ValidationSummary(true)
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.name, new { @for = "name" })
+                                @Html.TextBoxFor(model => model.name, new
+                           {
+                               @class = "form-control",
+                               @id = "name",
+                               @placeholder = "Nhập tên hãng..."
+                           })
+                                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.metatitle, new { @for = "metatitle" })
+                                @Html.TextBoxFor(model => model.metatitle, new
+                           {
+                               @class = "form-control",
+                               @id = "metatitle",
+                               @placeholder = "Nhập đường dẫn..."
+                           })
+                                @Html.ValidationMessageFor(model => model.metatitle, "", new { @class = "text-danger" })
+                            </div>
+                            <button type="submit" class="btn btn-primary mb-2">Thêm mới</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

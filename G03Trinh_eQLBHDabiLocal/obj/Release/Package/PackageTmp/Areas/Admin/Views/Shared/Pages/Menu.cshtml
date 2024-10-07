@@ -1,0 +1,105 @@
+﻿<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
+    <div class="sidenav-header">
+        <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+        <a class="navbar-brand m-0" href="/admin/home" target="_blank">
+            <img src="~/Resources/admin/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
+            <span class="ms-1 font-weight-bold text-white">Trang quản trị</span>
+        </a>
+    </div>
+    <hr class="horizontal light mt-0 mb-2">
+    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link text-white @Html.Raw(String.Equals(ViewBag.active, "home") ? "active bg-gradient-primary" : "")" href="/admin/home">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">dashboard</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Trang chủ</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white @Html.Raw(String.Equals(ViewBag.active, "customer") ? "active bg-gradient-primary" : "")" href="/admin/customer/list">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">person</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Khách hàng</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white  @Html.Raw(String.Equals(ViewBag.active, "category") ? "active bg-gradient-primary" : "")" href="/admin/category/list">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">business</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Hãng</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white @Html.Raw(String.Equals(ViewBag.active, "product") ? "active bg-gradient-primary" : "")" href="/admin/product/list">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">shopping_basket</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Giày</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white @Html.Raw(String.Equals(ViewBag.active, "bill") ? "active bg-gradient-primary" : "")" href="/admin/bill">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">receipt_long</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Hóa đơn</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white @Html.Raw(String.Equals(ViewBag.active, "contact") ? "active bg-gradient-primary" : "")" href="/admin/contact">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">mail</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Liên hệ</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white @Html.Raw(String.Equals(ViewBag.active, "bank") ? "active bg-gradient-primary" : "")" href="/admin/bank">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">credit_card</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Ngân hàng</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white @Html.Raw(String.Equals(ViewBag.active, "slide") ? "active bg-gradient-primary" : "")" href="/admin/slide/list">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Slide</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white @Html.Raw(String.Equals(ViewBag.active, "report") ? "active bg-gradient-primary" : "")" href="/admin/report">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Báo cáo, thống kê</span>
+                </a>
+            </li>
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Quản lý tài khoản</h6>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white @Html.Raw(String.Equals(ViewBag.active, "changePass") ? "active bg-gradient-primary" : "")" href="/admin/account/ChangePassword">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">lock</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Đổi mật khẩu</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white logout" href="/admin/logout">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">login</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Đăng xuất</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</aside>

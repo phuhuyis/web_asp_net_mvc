@@ -1,0 +1,83 @@
+﻿
+@{
+    Layout = null;
+}
+@model Website.Models.Account
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Đăng nhập</title>
+    <link rel="stylesheet" href="~/Resources/admin/css/login.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="login-form">
+        <div class="container p-0">
+            <div class="container-fluid">
+                <div class="login d-flex align-items-center py-5">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col mx-auto p-0">
+                                @if (ViewBag.error != null)
+                                {
+                                    <div class="alert alert-danger" role="alert">
+                                        @ViewBag.error
+                                    </div>
+                                }
+                                <h3 class="h1 mb-4 text-center">Đăng nhập</h3>
+                                @using (Html.BeginForm(FormMethod.Post))
+                                {
+                                    @Html.ValidationSummary(true);
+                                    <div class="form-floating mb-3">
+                                        @Html.LabelFor(model => model.username, new
+                                   {
+                                       @for = "floatingInput"
+                                   })
+                                        @Html.TextBoxFor(model => model.username, new
+                                   {
+                                       @class = "form-control",
+                                       @id = "floatingInput",
+                                       @placeholder = "Nhập tên tài khoản"
+                                   })
+                                        @Html.ValidationMessageFor(model => model.username,"",new
+                                   {
+                                       @class = "text-danger"
+                                   })
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        @Html.LabelFor(model => model.password, new
+                                   {
+                                       @for = "floatingPassword"
+                                   })
+                                        @Html.TextBoxFor(model => model.password, new
+                                   {
+                                       @class = "form-control",
+                                       @id = "floatingPassword",
+                                       @placeholder = "Nhập mật khẩu",
+                                       @type = "password"
+                                   })
+                                        @Html.ValidationMessageFor(model => model.password, "", new
+                                   {
+                                       @class = "text-danger"
+                                   })
+                                    </div>
+                                    <div class="d-flex">
+                                        <button class="btn ml-auto mr-auto btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" style="width: 200px" type="submit">Đăng nhập</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

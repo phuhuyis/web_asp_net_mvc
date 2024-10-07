@@ -1,0 +1,86 @@
+﻿@{
+    Layout = "~/Views/Shared/Layouts/LayoutWeb.cshtml";
+    System.Globalization.CultureInfo cul = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+@model List<G03Trinh_eQLBHDabiLocal.Entity.bill_info>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+</head>
+
+<body>
+    <div class="container pr-0 mt-5 mb-5" style="min-height: 510px;">
+        <div class="row" id="root-cart">
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <div class="h2">Danh sách đơn hàng</div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center align-middle">STT</th>
+                                <th scope="col" class="text-center align-middle">Sản phẩm</th>
+                                <th scope="col" class="text-center align-middle">Màu sắc</th>
+                                <th scope="col" class="text-center align-middle">Đơn giá</th>
+                                <th scope="col" class="text-center align-middle">Số lượng</th>
+                                <th scope="col" class="text-center align-middle">Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int index = 0;
+                            }
+                            @foreach (G03Trinh_eQLBHDabiLocal.Entity.bill_info item in Model)
+                            {
+                                index++;
+                                <tr>
+                                    <td scope="row" class="text-center align-middle">@index</td>
+                                    <td class="text-center align-middle">
+                                        @item.product1.name
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        @foreach (var color in G03Trinh_eQLBHDabiLocal.Common.Constant.colors)
+                                        {
+                                            if (color.Value == item.color.ToString())
+                                            {
+                                                <span>@color.Text</span>
+                                            }
+                                        }
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        @String.Format(cul, "{0:C0}", item.product1.price)
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        @item.quantity
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        @String.Format(cul, "{0:C0}", item.product1.price * item.quantity)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    @{
+                        decimal sumPrice = 0;
+                        foreach (G03Trinh_eQLBHDabiLocal.Entity.bill_info item in Model)
+                        {
+                            sumPrice += (decimal)item.product1.price * (decimal)item.quantity;
+                        }
+                        <div class="text-right h3">
+                            Tổng cộng: <span class="text-danger">@String.Format(cul, "{0:C0}", sumPrice)</span>
+                        </div>
+
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

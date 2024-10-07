@@ -1,0 +1,87 @@
+﻿@{
+    Layout = "~/Views/Shared/Layouts/LayoutWeb.cshtml";
+}
+@model List<Website.Entity.bill>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+</head>
+
+<body>
+    <div class="container pr-0 mt-5 mb-5" style="min-height: 510px;">
+        <div class="row" id="root-cart">
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <div class="h2">Danh sách đơn hàng</div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center align-middle">STT</th>
+                                <th scope="col" class="text-center align-middle">Họ và tên</th>
+                                <th scope="col" class="text-center align-middle">Địa chỉ</th>
+                                <th scope="col" class="text-center align-middle">Số điện thoại</th>
+                                <th scope="col" class="text-center align-middle">Ngày đặt</th>
+                                <th scope="col" class="text-center align-middle">Hình thức thanh toán</th>
+                                <th scope="col" class="text-center align-middle"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int index = 0;
+                            }
+                            @foreach (Website.Entity.bill item in Model)
+                            {
+                                index++;
+                                <tr>
+                                    <td scope="row" class="text-center align-middle">@index</td>
+                                    <td class="text-center align-middle">
+                                        @item.name
+                                        @foreach (SelectListItem selectListItem in Website.Common.Constant.statusBill)
+                                        {
+                                            if (selectListItem.Value.Equals(item.status.ToString()))
+                                            {
+                                                <span class="badge @Html.Raw(item.status == 2 ? "badge-primary" : (item.status == 0 ? "badge-secondary" : "badge-info"))">@selectListItem.Text</span>
+                                            }
+                                        }
+                                    </td>
+                                    <td class="text-center align-middle" style="word-break: break-all !important; width: 105px; white-space: normal !important;">
+                                        @item.address
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        @item.phone
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        @Html.Raw(item.booking_date != null ? ((DateTime)item.booking_date).ToString("dd/MM/yyyy") : "")
+                                    </td>
+                                    @foreach (var item2 in Website.Common.Constant.payments)
+                                    {
+                                        if (item2.Value == item.payment.ToString())
+                                        {
+                                            <td class="text-center align-middle">
+                                                @Html.Raw(item2.Text)
+                                            </td>
+                                        }
+                                    }
+                                    <td class="text-center align-middle">
+                                        <a href="/bill/@item.id" class="btn btn-outline-dark p-2 btn-detail-bill" style="font-size: 12px !important">
+                                            <i class="far fa-eye"></i>
+                                            Xem chi tiết
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

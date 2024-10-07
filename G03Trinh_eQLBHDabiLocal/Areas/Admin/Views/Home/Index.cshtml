@@ -1,0 +1,155 @@
+﻿
+@{
+    Layout = "~/Areas/Admin/Views/Shared/Layouts/LayoutAdmin.cshtml";
+    System.Globalization.CultureInfo cul = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+@model List<G03Trinh_eQLBHDabiLocal.Entity.bill>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+        <div class="container-fluid py-1 px-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Trang</a></li>
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Tổng quan</li>
+                </ol>
+                <h6 class="font-weight-bolder mb-0">Tổng quan</h6>
+            </nav>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="container-fluid">
+        <div class="row mt-3">
+            <div class="col-4 mb-4">
+                <div class="card">
+                    <div class="card-header p-3 pt-2">
+                        <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+                            <i class="material-icons opacity-10">weekend</i>
+                        </div>
+                        <div class="text-end pt-1">
+                            <p class="text-sm mb-0 text-capitalize">Doanh thu tháng</p>
+                            <h4 class="mb-0">@String.Format(cul, "{0:C0}", ViewBag.revenueMonthNew)</h4>
+                        </div>
+                    </div>
+                    <hr class="dark horizontal my-0">
+                    <div class="card-footer p-3">
+                        <p class="mb-0"><span class="text-success text-sm font-weight-bolder">
+                            @Html.Raw((ViewBag.percentPriceMonth > 0 ? "+" + ViewBag.percentPriceMonth : ViewBag.percentPriceMonth) + "%") </span>tháng trước</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 mb-4">
+                <div class="card">
+                    <div class="card-header p-3 pt-2">
+                        <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                            <i class="material-icons opacity-10">person</i>
+                        </div>
+                        <div class="text-end pt-1">
+                            <p class="text-sm mb-0 text-capitalize">Khách hàng mới</p>
+                            <h4 class="mb-0">@ViewBag.countCustomer</h4>
+                        </div>
+                    </div>
+                    <hr class="dark horizontal my-0">
+                    <div class="card-footer p-3">
+                        <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+30% </span>tháng trước</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header p-3 pt-2">
+                        <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+                            <i class="material-icons opacity-10">weekend</i>
+                        </div>
+                        <div class="text-end pt-1">
+                            <p class="text-sm mb-0 text-capitalize">Doanh thu năm</p>
+                            <h4 class="mb-0">@String.Format(cul, "{0:C0}", ViewBag.revenueYearNew)</h4>
+                        </div>
+                    </div>
+                    <hr class="dark horizontal my-0">
+                    <div class="card-footer p-3">
+                        <p class="mb-0"><span class="text-success text-sm font-weight-bolder">
+                            @Html.Raw((ViewBag.percentPriceYear > 0 ? "+" + ViewBag.percentPriceYear : ViewBag.percentPriceYear) + "%") </span>năm trước</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Table-->
+        <div class="row mt-5">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="row">
+                            <div class="col-lg-6 col-7">
+                                <h6>Danh sách hóa đơn</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body px-2 pb-2">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-center align-middle">STT</th>
+                                    <th scope="col" class="text-center align-middle">Khách hàng</th>
+                                    <th scope="col" class="text-center align-middle">Địa chỉ</th>
+                                    <th scope="col" class="text-center align-middle">Số điện thoại</th>
+                                    <th scope="col" class="text-center align-middle">Ngày đặt</th>
+                                    <th scope="col" class="text-center align-middle"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int index = 0;
+                                }
+                                @foreach (G03Trinh_eQLBHDabiLocal.Entity.bill item in Model)
+                                {
+                                    index++;
+                                    <tr>
+                                        <td scope="row" class="text-center align-middle">@index</td>
+                                        <td class="text-center align-middle">
+                                            @item.name
+                                            @foreach (SelectListItem selectListItem in G03Trinh_eQLBHDabiLocal.Common.Constant.statusBill)
+                                            {
+                                                if (selectListItem.Value.Equals(item.status.ToString()))
+                                                {
+                                                    <span class="badge @Html.Raw(item.status == 2 ? "badge-primary" : (item.status == 0 ? "badge-secondary" : "badge-info"))">@selectListItem.Text</span>
+                                                }
+                                            }
+                                        </td>
+                                        <td class="text-center align-middle" style="word-break: break-all !important; width: 105px; white-space: normal !important;">
+                                            @item.address.Trim()
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            @item.phone
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            @Html.Raw(item.booking_date != null ? ((DateTime)item.booking_date).ToString("dd/MM/yyyy") : "")
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            <a href="/admin/bill/edit/@item.id" class="btn btn-primary handle-bill-home" data-id="@item.id">
+                                                <i class="fas fa-truck"></i>
+                                                Giao hàng
+                                            </a>
+                                            <a href="/admin/bill/edit/@item.id" class="btn btn-danger no-handle-bill-home" data-id="@item.id">
+                                                <i class="fas fa-trash"></i>
+                                                Chưa giao hàng
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

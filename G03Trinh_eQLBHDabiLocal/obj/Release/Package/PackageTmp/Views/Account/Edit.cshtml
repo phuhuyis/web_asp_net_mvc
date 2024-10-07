@@ -1,0 +1,103 @@
+﻿
+@{
+    Layout = "~/Views/Shared/Layouts/LayoutWeb.cshtml";
+}
+@model Website.Models.Customer
+<!DOCTYPE html>
+
+<html>
+<head>
+</head>
+<body>
+    <div class="container mt-5 mb-5">
+        <div class="text-center">
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h1 mb-0 text-gray-800">Cập nhập thông tin</h1>
+            </div>
+        </div>
+        @if (ViewBag.error != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.error
+            </div>
+        }
+        @if (ViewBag.success != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @ViewBag.success
+            </div>
+        }
+        @using (Html.BeginForm(FormMethod.Post))
+        {
+            @Html.ValidationSummary(true)
+            <div class="form-group mb-3">
+                @Html.LabelFor(model => model.name, new { @for = "name" })
+                @Html.TextBoxFor(model => model.name, new
+           {
+               @class = "form-control",
+               @id = "name",
+               @placeholder = "Nhập họ và tên..."
+           })
+                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group mb-3">
+                @Html.LabelFor(model => model.address, new { @for = "address" })
+                @Html.TextAreaFor(model => model.address, new
+           {
+               @class = "form-control",
+               @id = "address",
+               @placeholder = "Nhập địa chỉ...",
+               @row = "3"
+           })
+                @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group mb-3">
+                @Html.LabelFor(model => model.phone, new { @for = "phone" })
+                @Html.TextBoxFor(model => model.phone, new
+           {
+               @class = "form-control",
+               @id = "phone",
+               @placeholder = "Nhập số điện thoại...",
+               @type = "number"
+           })
+                @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group mb-3">
+                @Html.LabelFor(model => model.email, new { @for = "email" })
+                @Html.TextBoxFor(model => model.email, new
+           {
+               @class = "form-control",
+               @id = "email",
+               @placeholder = "Nhập email...",
+               @type = "email"
+           })
+                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group mb-3">
+                @Html.LabelFor(model => model.password, new { @for = "password" })
+                @Html.TextBoxFor(model => model.password, new
+           {
+               @class = "form-control",
+               @id = "password",
+               @placeholder = "Nhập mật khẩu...",
+               @type = "password"
+           })
+                @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group mb-3">
+                @Html.LabelFor(model => model.enterPassword, new { @for = "password" })
+                @Html.TextBoxFor(model => model.enterPassword, new
+           {
+               @class = "form-control",
+               @id = "password",
+               @placeholder = "Nhập nhập lại mật khẩu...",
+               @type = "password"
+           })
+                @Html.ValidationMessageFor(model => model.enterPassword, "", new { @class = "text-danger" })
+            </div>
+            <button type="submit" class="btn btn-outline-dark out mb-3">Cập nhập</button>
+        }
+    </div>
+</body>
+</html>
+

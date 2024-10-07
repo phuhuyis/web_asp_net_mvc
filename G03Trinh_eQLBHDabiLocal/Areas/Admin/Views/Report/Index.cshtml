@@ -1,0 +1,357 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/Layouts/LayoutAdmin.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+        <div class="container-fluid py-1 px-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Trang</a></li>
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Báo cáo, thống kê</li>
+                </ol>
+                <h6 class="font-weight-bolder mb-0">Báo cáo, thống kê</h6>
+            </nav>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+
+    <div class="container-fluid">
+        <!--Table-->
+        <div class="row mt-5">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="row">
+                            <div class="col-lg-6 col-7">
+                                <h6>Báo cáo, thống kê</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body px-2 pb-2">
+                        <div class="d-flex justify-content-center">
+                            <div class="w-50 row">
+                                <div class="col row">
+                                    <div class="col-2 d-flex align-items-center pb-3">
+                                        Từ
+                                    </div>
+                                    <div class="col">
+                                        <input type="date" class="form-control" id="startDate" />
+                                    </div>
+                                </div>
+                                <div class="col row">
+                                    <div class="col-2 d-flex align-items-center pb-3">
+                                        Đến
+                                    </div>
+                                    <div class="col">
+                                        <input type="date" class="form-control" id="endDate" />
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <button class="btn btn-danger" onclick="updateReport()">Thống kê</button>
+                                </div>
+                                <div class="col-1">
+                                    <button class="btn btn-danger" onclick="print()">In</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="content-report">
+                            <div>
+                                <div class="card shadow mb-4">
+                                    <!-- Card Header - Dropdown -->
+                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 class="m-0 font-weight-bold text-primary">Sản phẩm bán chạy</h6>
+                                    </div>
+                                    <!-- Card Body -->
+                                    <div class="card-body">
+                                        <div class="chart-pie pt-4 pb-2">
+                                            <canvas id="productChart"></canvas>
+                                        </div>
+                                        <div class="mt-4 text-center small" id="product">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="card shadow mb-4">
+                                    <!-- Card Header - Dropdown -->
+                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 class="m-0 font-weight-bold text-primary">Hãng</h6>
+                                    </div>
+                                    <!-- Card Body -->
+                                    <div class="card-body">
+                                        <div class="chart-pie pt-4 pb-2">
+                                            <canvas id="categoryChart"></canvas>
+                                        </div>
+                                        <div class="mt-4 text-center small">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script>
+        var today = new Date();
+        var formattedDate = today.toISOString().split('T')[0];
+        document.getElementById("startDate").value = formattedDate;
+        document.getElementById("endDate").value = formattedDate;
+    </script>
+    <script>
+        function print() {
+            var dataURL = document.querySelector("#productChart").toDataURL();
+            var width = document.querySelector("#productChart").width;
+            var dataURL2 = document.querySelector("#categoryChart").toDataURL();
+            var width2 = document.querySelector("#categoryChart").width;
+            var printWindow = window.open('');
+            printWindow.document.title = "Thống kê";
+            $(printWindow.document.body)
+                .html("<h1 style='margin-top: 25px; text-align: center'>Sản phẩm bán chạy</h1><img id='Image' src=" + dataURL + " style='" + width + "'></img><h1 style='margin-top: 25px; text-align: center'>Danh mục sản phẩm</h1><img id='Image' src=" + dataURL2 + " style='" + width2 + "'></img>")
+                .ready(function () {
+                    printWindow.focus();
+                    printWindow.print();
+                });
+            //document.getElementById('content-report').printMe();
+        }
+        var myPieChart;
+        var myPieChart2;
+        function updateReport() {
+            var rsData = [];
+            $.ajax({
+                url: "/api/admin/report/product",
+                data: {
+                    startDate: document.getElementById("startDate").value,
+                    endDate: document.getElementById("endDate").value
+                },
+                dataType: "json",
+                method: "POST",
+                success: (rs) => {
+                    rsData = rs;
+                }
+            });
+            setTimeout(() => {
+                var labels = [];
+                var data = [];
+                var color = [];
+                var i = 0;
+                for (let item of rsData) {
+                    if (i < 3) {
+                        labels.push(item.label);
+                        data.push(item.data);
+                        color.push(item.color);
+                        i++;
+                    } else {
+                        break;
+                    }
+                }
+                myPieChart.data.labels = labels;
+                myPieChart.data.datasets[0].data = data;
+                myPieChart.data.datasets[0].backgroundColor = color[0];
+                myPieChart.update();
+            }, 1000);
+            var rsCategoryData = [];
+            $.ajax({
+                url: "/api/admin/report/category",
+                data: {
+                    startDate: document.getElementById("startDate").value,
+                    endDate: document.getElementById("endDate").value
+                },
+                dataType: "json",
+                method: "POST",
+                success: (rs) => {
+                    rsCategoryData = rs;
+                }
+            });
+            setTimeout(() => {
+                var labels = [];
+                var data = [];
+                var color = [];
+                var i = 0;
+                for (let item of rsCategoryData) {
+                    if (i < 3) {
+                        labels.push(item.label);
+                        data.push(item.data);
+                        color.push(item.color);
+                        i++;
+                    } else {
+                        break;
+                    }
+                }
+                myPieChart2.data.labels = labels;
+                myPieChart2.data.datasets[0].data = data;
+                myPieChart2.data.datasets[0].backgroundColor = color[0];
+                myPieChart2.update();
+            }, 1000);
+        }
+        function load() {
+            var rsData = [];
+            $.ajax({
+                url: "/api/admin/report/product",
+                data: {
+                    startDate: document.getElementById("startDate").value,
+                    endDate: document.getElementById("endDate").value
+                },
+                dataType: "json",
+                method: "POST",
+                success: (rs) => {
+                    rsData = rs;
+                }
+            });
+            setTimeout(() => {
+                var html = "";
+                var labels = [];
+                var data = [];
+                var color = [];
+                var i = 0;
+                for (let item of rsData) {
+                    if (i < 3) {
+                        /*                    html += `<span class="mr-2">
+                                                                            <i class="fas fa-circle" style="color: ${item.color}"></i> ${item.label}
+                                                                        </span>`;*/
+                        labels.push(item.label);
+                        data.push(item.data);
+                        color.push(item.color);
+                        i++;
+                    } else {
+                        break;
+                    }
+                }
+                $("#product").html(html);
+                var ctx = document.getElementById("productChart");
+                myPieChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: color[0],
+                            label: 'Số lượng',
+                        }],
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        tooltips: {
+                            backgroundColor: "rgb(255,255,255)",
+                            bodyFontColor: "#858796",
+                            borderColor: '#dddfeb',
+                            borderWidth: 1,
+                            xPadding: 15,
+                            yPadding: 15,
+                            displayColors: false,
+                            caretPadding: 10,
+                        },
+                        legend: {
+                            display: false
+                        },
+                        cutoutPercentage: 80,
+                        parsing: {
+                            key: 'nested.value'
+                        }
+                    },
+                    /*            type: 'doughnut',
+                                data: {
+                                    datasets: [{
+                                        data: [{ id: 'Sales', nested: { value: 1500 } }, { id: 'Purchases', nested: { value: 500 } }]
+                                    }]
+                                },
+                                options: {
+                                    parsing: {
+                                        key: 'nested.value'
+                                    }
+                                }*/
+                });
+            }, 1000);
+            var rsCategoryData = [];
+            $.ajax({
+                url: "/api/admin/report/category",
+                data: {
+                    startDate: document.getElementById("startDate").value,
+                    endDate: document.getElementById("endDate").value
+                },
+                dataType: "json",
+                method: "POST",
+                success: (rs) => {
+                    rsCategoryData = rs;
+                }
+            });
+            setTimeout(() => {
+                console.log(rsCategoryData);
+                var html = "";
+                var labels = [];
+                var data = [];
+                var color = [];
+                var i = 0;
+                for (let item of rsCategoryData) {
+                    if (i < 3) {
+                        /*                    html += `<span class="mr-2">
+                                                                            <i class="fas fa-circle" style="color: ${item.color}"></i> ${item.label}
+                                                                        </span>`;*/
+                        labels.push(item.label);
+                        data.push(item.data);
+                        color.push(item.color);
+                        i++;
+                    } else {
+                        break;
+                    }
+                }
+                $("#product").html(html);
+                var ctx = document.getElementById("categoryChart");
+                myPieChart2 = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: color[0],
+                            label: 'Số lượng',
+                        }],
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        tooltips: {
+                            backgroundColor: "rgb(255,255,255)",
+                            bodyFontColor: "#858796",
+                            borderColor: '#dddfeb',
+                            borderWidth: 1,
+                            xPadding: 15,
+                            yPadding: 15,
+                            displayColors: false,
+                            caretPadding: 10,
+                        },
+                        legend: {
+                            display: false
+                        },
+                        cutoutPercentage: 80,
+                        parsing: {
+                            key: 'nested.value'
+                        }
+                    },
+                    /*            type: 'doughnut',
+                                data: {
+                                    datasets: [{
+                                        data: [{ id: 'Sales', nested: { value: 1500 } }, { id: 'Purchases', nested: { value: 500 } }]
+                                    }]
+                                },
+                                options: {
+                                    parsing: {
+                                        key: 'nested.value'
+                                    }
+                                }*/
+                });
+            }, 1000);
+        }
+        load();
+    </script>
+</body>
+</html>

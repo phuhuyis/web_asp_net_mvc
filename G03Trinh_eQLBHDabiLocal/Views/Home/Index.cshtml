@@ -1,0 +1,100 @@
+﻿
+@{
+    Layout = "~/Views/Shared/Layouts/LayoutWeb.cshtml";
+}
+
+@model List<G03Trinh_eQLBHDabiLocal.Entity.category>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>@ViewBag.title</title>
+</head>
+
+<body class="bg-light">
+    @{Html.RenderAction("Slide", "Home");}
+    <section class="pb-5 mt-3 bg-light">
+        <div class="container px-0">
+            @foreach (var item in Model)
+            {
+                if (item.product != null && item.product.Count > 0)
+                {
+                    <h2 class="fw-bolder mb-4">@item.name</h2>
+                    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                        @{
+                            int index = 0;
+                            foreach (var product in item.product)
+                            {
+                                index++;
+                                if (index < 5)
+                                {
+                                    <div class="col mb-5">
+                                        <div class="card h-100">
+                                            <!-- Product image-->
+                                            <img class="card-img-top" src="@product.image" height="250px" />
+                                            <!-- Product details-->
+                                            <div class="card-body p-4">
+                                                <div class="text-center">
+                                                    <!-- Product name-->
+                                                    <a href="/product/@product.id" class="fw-bolder font-weight-bold text-black" style="height: 30px !important; display: block;">@product.name</a>
+                                                    <br />
+                                                    <!-- Product price-->
+                                                    @{
+                                                        System.Globalization.CultureInfo cul = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+                                                                                                        <div class="mt-1">
+                                                                                                            <span class="text-danger font-weight-bold">@Html.Raw(String.Format(cul, "{0:C0}", product.price))</span>
+                                                                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <!-- Product actions-->
+                                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                                <div class="text-center"><a class="btn btn-outline-dark mt-auto add-cart-home" data-id="@product.id" data-quantity="1" href="#">Thêm vào giỏ hàng</a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            for (int i = 1; i < 5 - item.product.Count; i++)
+                            {
+                                <div class="col mb-5">
+                                </div>
+                            }
+                        }
+                    </div>
+                }
+            }
+        </div>
+    </section>
+    <div class="modal" tabindex="-1" role="dialog" id="select-color">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Chọn màu túi sách</h5>
+                    <button onclick="loadPage()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="mt-3">
+                        <label for="color" id="quantity-input">Màu sắc: </label>
+                        <select class="form-control" id="color">
+                            @foreach (var item in G03Trinh_eQLBHDabiLocal.Common.Constant.colors)
+                            {
+                                <option value="@item.Value" @Html.Raw(item.Selected ? "selected" : "")>@item.Text</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="d-flex mt-3">
+                        <div>
+                            <a class="btn btn-outline-dark mt-auto out add-cart-modal" href="add/cart">Thêm vào giỏ hàng</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

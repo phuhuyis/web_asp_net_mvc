@@ -1,0 +1,119 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/Layouts/LayoutAdmin.cshtml";
+}
+@model List<Website.Entity.bill>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+        <div class="container-fluid py-1 px-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Trang</a></li>
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Hóa đơn</li>
+                </ol>
+                <h6 class="font-weight-bolder mb-0">Hóa đơn</h6>
+            </nav>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+
+    <div class="container-fluid">
+        <!--Table-->
+        <div class="row mt-5">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="row">
+                            <div class="col-lg-6 col-7">
+                                <h6>Danh sách hóa đơn</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body px-2 pb-2">
+                        <!--Table-->
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-center align-middle">STT</th>
+                                    <th scope="col" class="text-center align-middle">Khách hàng</th>
+                                    <th scope="col" class="text-center align-middle">Địa chỉ</th>
+                                    <th scope="col" class="text-center align-middle">Số điện thoại</th>
+                                    <th scope="col" class="text-center align-middle">Ngày đặt</th>
+                                    <th scope="col" class="text-center align-middle">Hình thức thanh toán</th>
+                                    <th scope="col" class="text-center align-middle"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int index = 0;
+                                }
+                                @foreach (Website.Entity.bill item in Model)
+                                {
+                                    index++;
+                                    <tr>
+                                        <td scope="row" class="text-center align-middle">@index</td>
+                                        <td class="text-center align-middle">
+                                            @item.name
+                                            @foreach (SelectListItem selectListItem in Website.Common.Constant.statusBill)
+                                            {
+                                                if (selectListItem.Value.Equals(item.status.ToString()))
+                                                {
+                                                    <span class="badge @Html.Raw(item.status == 2 ? "badge-primary" : (item.status == 0 ? "badge-secondary" : "badge-info"))">@selectListItem.Text</span>
+                                                }
+                                            }
+                                        </td>
+                                        <td class="text-center align-middle" style="word-break: break-all !important; width: 105px; white-space: normal !important;">
+                                            @item.address
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            @item.phone
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            @Html.Raw(item.booking_date != null ? ((DateTime)item.booking_date).ToString("dd/MM/yyyy") : "")
+                                        </td>
+                                        @foreach (var item2 in Website.Common.Constant.payments)
+                                        {
+                                            if (item2.Value == item.payment.ToString())
+                                            {
+                                                <td class="text-center align-middle">
+                                                    @Html.Raw(item2.Text)
+                                                </td>
+                                            }
+                                        }
+
+                                        <td class="text-center align-middle">
+                                            <div>
+                                                <a href="/admin/bill/@item.id" class="btn btn-success p-2" style="font-size: 12px !important">
+                                                    <i class="far fa-eye"></i>
+                                                    Xem chi tiết
+                                                </a>
+                                                <a href="/admin/bill/edit/@item.id" class="btn btn-primary handle-bill p-2" style="font-size: 12px !important" data-id="@item.id">
+                                                    <i class="fas fa-truck"></i>
+                                                    Giao hàng
+                                                </a>
+                                            </div>
+                                            <div>
+                                                <a href="/admin/bill/edit/@item.id" class="btn btn-danger no-handle-bill p-2" style="font-size: 12px !important" data-id="@item.id">
+                                                    <i class="fas fa-trash"></i>
+                                                    Chưa giao hàng
+                                                </a>
+                                            </div>
+                                            
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

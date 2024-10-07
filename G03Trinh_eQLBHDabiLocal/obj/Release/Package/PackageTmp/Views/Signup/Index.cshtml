@@ -1,0 +1,120 @@
+﻿
+@{
+    Layout = "~/Views/Shared/Layouts/LayoutWeb.cshtml";
+}
+@model Website.Models.Customer
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link rel="stylesheet" href="~/Resources/web/css/signup.css">
+</head>
+<body>
+    <div class="signup">
+        <div class="login-form">
+            <div class="container p-0">
+                <div class="container-fluid">
+                    <div class="login d-flex align-items-center py-3">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col mx-auto p-0">
+                                    <div class="text-center">
+                                        <h1 class="h3 mb-3 text-gray-800 text-center">ĐĂNG KÝ</h1>
+                                    </div>
+                                    @if (ViewBag.error != null)
+                                    {
+                                        <div class="alert alert-danger" role="alert">
+                                            @ViewBag.error
+                                        </div>
+                                    }
+                                    @using (Html.BeginForm(FormMethod.Post))
+                                    {
+                                        @Html.ValidationSummary(true)
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(model => model.name, new
+                                       {
+                                           @class = "form-control",
+                                           @id = "name",
+                                           @placeholder = "Họ và tên..."
+                                       })
+                                            @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(model => model.address, new
+                                       {
+                                           @class = "form-control",
+                                           @id = "address",
+                                           @placeholder = "Địa chỉ...",
+                                       })
+                                            @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(model => model.phone, new
+                                       {
+                                           @class = "form-control",
+                                           @id = "phone",
+                                           @placeholder = "Số điện thoại...",
+                                           @type = "number"
+                                       })
+                                            @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(model => model.email, new
+                                       {
+                                           @class = "form-control",
+                                           @id = "email",
+                                           @placeholder = "Email...",
+                                           @type = "email"
+                                       })
+                                            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(model => model.username, new
+                                       {
+                                           @class = "form-control",
+                                           @id = "username",
+                                           @placeholder = "Tài khoản..."
+                                       })
+                                            @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(model => model.password, new
+                                       {
+                                           @class = "form-control",
+                                           @id = "password",
+                                           @placeholder = "Mật khẩu...",
+                                           @type = "password"
+                                       })
+                                            @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(model => model.enterPassword, new
+                                       {
+                                           @class = "form-control",
+                                           @id = "enterPassword",
+                                           @placeholder = "Nhập lại mật khẩu...",
+                                           @type = "password"
+                                       })
+                                            @Html.ValidationMessageFor(model => model.enterPassword, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <button type="submit" class="btn btn-outline-dark out mb-2">Đăng ký</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (ViewBag.success != null)
+    {
+        <script>
+                    alert("@Html.Raw(ViewBag.success)");
+                    document.location.href = "/home";
+        </script>
+    }
+</body>
+</html>

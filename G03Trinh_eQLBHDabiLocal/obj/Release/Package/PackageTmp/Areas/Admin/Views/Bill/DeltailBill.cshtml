@@ -1,0 +1,128 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/Layouts/LayoutAdmin.cshtml";
+    System.Globalization.CultureInfo cul = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+@model List<Website.Entity.bill_info>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+</head>
+<body>
+    @if (Model.Count > 0)
+    {
+        <!-- Navbar -->
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+            <div class="container-fluid py-1 px-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Trang</a></li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Chi tiết hóa đơn</li>
+                    </ol>
+                    <h6 class="font-weight-bolder mb-0">Chi tiết hóa đơn</h6>
+                </nav>
+            </div>
+        </nav>
+        <!-- End Navbar -->
+
+        <div class="container-fluid">
+            <!--Table-->
+            <div class="row mt-3">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header pb-0">
+                            <div class="row">
+                                <div class="col-lg-6 col-7">
+                                    <h6>Chi tiết hóa đơn</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body pt-0 px-2 pb-2">
+                            <!--Table-->
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <div class="mb-2">
+                                        <span class="font-weight-bold">Tên khách hàng:</span> @Model[0].bill1.name
+                                    </div>
+                                    <div>
+                                        <span class="font-weight-bold">Địa chỉ:</span> @Model[0].bill1.address
+                                    </div>
+                                </div>
+                                <div class="col text-right">
+                                    <div class="mb-2">
+                                        <span class="font-weight-bold">Số điện thoại:</span> @Model[0].bill1.phone
+                                    </div>
+                                    <div>
+                                        <span class="font-weight-bold">Ngày đặt:</span> @Html.Raw(Model[0].bill1.booking_date != null ? ((DateTime)Model[0].bill1.booking_date).ToString("dd/MM/yyyy") : "")
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="text-center align-middle">STT</th>
+                                        <th scope="col" class="text-center align-middle">Sản phẩm</th>
+                                        <th scope="col" class="text-center align-middle">Size</th>
+                                        <th scope="col" class="text-center align-middle">Đơn giá</th>
+                                        <th scope="col" class="text-center align-middle">Số lượng</th>
+                                        <th scope="col" class="text-center align-middle">Thành tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int index = 0;
+                                    }
+                                    @foreach (Website.Entity.bill_info item in Model)
+                                    {
+                                        index++;
+                                        <tr>
+                                            <td scope="row" class="text-center align-middle">@index</td>
+                                            <td class="text-center align-middle">
+                                                @item.product1.name
+                                            </td>
+                                            <td class="text-center align-middle">
+                                                @item.size
+                                            </td>
+                                            <td class="text-center align-middle">
+                                                @String.Format(cul, "{0:C0}", item.product1.price)
+                                            </td>
+                                            <td class="text-center align-middle">
+                                                @item.quantity
+                                            </td>
+                                            <td class="text-center align-middle">
+                                                @String.Format(cul, "{0:C0}", item.product1.price * item.quantity)
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            @{
+                                decimal sumPrice = 0;
+                                foreach (Website.Entity.bill_info item in Model)
+                                {
+                                    sumPrice += (decimal)item.product1.price * (decimal)item.quantity;
+                                }
+                                <div class="text-right h3">
+                                    Tổng cộng: <span class="text-danger">@String.Format(cul, "{0:C0}", sumPrice)</span>
+                                </div>
+
+
+                            }
+                            @if (Model[0].bill1.status == 0 || Model[0].bill1.status == 1)
+                            {
+                                <div class="text-right">
+                                    <a href="/admin/bill/edit/@Model[0].bill1.id" class="btn btn-primary handle-bill" data-id="@Model[0].bill1.id">
+                                        <i class="fas fa-truck"></i>
+                                        Giao hàng
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</body>
+</html>

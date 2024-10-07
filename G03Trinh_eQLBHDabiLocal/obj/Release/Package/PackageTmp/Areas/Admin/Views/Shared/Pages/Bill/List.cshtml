@@ -1,0 +1,58 @@
+﻿@model List<Website.Entity.bill>
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Danh sách hóa đơn</h1>
+</div>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center align-middle">STT</th>
+            <th scope="col" class="text-center align-middle">Khách hàng</th>
+            <th scope="col" class="text-center align-middle">Địa chỉ</th>
+            <th scope="col" class="text-center align-middle">Số điện thoại</th>
+            <th scope="col" class="text-center align-middle">Ngày đặt</th>
+            <th scope="col" class="text-center align-middle"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 0;
+        }
+        @foreach (Website.Entity.bill item in Model)
+        {
+            index++;
+            <tr>
+                <th scope="row" class="text-center align-middle">@index</th>
+                <td class="text-center align-middle">
+                    @item.customer1.name
+                    @foreach (SelectListItem selectListItem in Website.Common.Constant.statusBill)
+                    {
+                        if (selectListItem.Value.Equals(item.status.ToString()))
+                        {
+                            <span class="badge @Html.Raw(item.status == 2 ? "badge-primary" : (item.status == 0 ? "badge-secondary" : "badge-info"))">@selectListItem.Text</span>
+                        }
+                    }
+                </td>
+                <td class="text-center align-middle">
+                    @item.customer1.address
+                </td>
+                <td class="text-center align-middle">
+                    @item.customer1.phone
+                </td>
+                <td class="text-center align-middle">
+                    @Html.Raw(item.booking_date != null ? ((DateTime)item.booking_date).ToString("dd/MM/yyyy") : "")
+                </td>
+                <td class="text-center align-middle">
+                    <a href="/admin/bill/edit/@item.id" class="btn btn-primary handle-bill-home" data-id="@item.id">
+                        <i class="fas fa-truck"></i>
+                        Giao hàng
+                    </a>
+                    <a href="/admin/bill/edit/@item.id" class="btn btn-danger no-handle-bill-home" data-id="@item.id">
+                        <i class="fas fa-trash"></i>
+                        Chưa giao hàng
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

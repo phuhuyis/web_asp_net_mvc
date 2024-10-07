@@ -1,0 +1,22 @@
+﻿@foreach (Website.Entity.bill_info item in Model)
+                                    {
+                                        index++;
+                                        <tr>
+                                            <td scope="row" class="text-center align-middle">@index</td>
+                                            <td class="text-center align-middle">
+                                                @item.product1.name
+                                            </td>
+                                            <td class="text-center align-middle">
+                                                @item.size
+                                            </td>
+                                            <td class="text-center align-middle">
+                                                @String.Format(cul, "{0:C0}", item.product1.price)
+                                            </td>
+                                            <td class="text-center align-middle">
+                                                @item.quantity
+                                            </td>
+                                            <td class="text-center align-middle">
+                                                @String.Format(cul, "{0:C0}", item.product1.price * item.quantity)
+                                            </td>
+                                        </tr>
+                                    }

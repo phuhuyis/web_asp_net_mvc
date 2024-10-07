@@ -1,0 +1,8 @@
+﻿</tbody>
+        </table>
+        <div style="margin-top: 30px; font-size: 25px; font-weight: 900;">
+            Tổng cộng: @sum
+        </div>
+    </div>
+</body>
+</html>

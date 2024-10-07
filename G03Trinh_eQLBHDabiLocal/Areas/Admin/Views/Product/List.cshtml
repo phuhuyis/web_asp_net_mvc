@@ -1,0 +1,138 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/Layouts/LayoutAdmin.cshtml";
+}
+@model List<G03Trinh_eQLBHDabiLocal.Models.Product>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+        <div class="container-fluid py-1 px-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Trang</a></li>
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Túi sách</li>
+                </ol>
+                <h6 class="font-weight-bolder mb-0">Túi sách</h6>
+            </nav>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+
+    <div class="container-fluid">
+        <!--Table-->
+        <div class="row mt-5">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="row">
+                            <div class="col-lg-6 col-7">
+                                <h6>Danh sách túi sách</h6>
+                            </div>
+                            <div class="col">
+                                <div class="d-flex justify-content-end align-items-start">
+                                    <form class="form-inline mr-0 my-lg-0 d-flex" action="" method="get">
+                                        <input class="form-control mr-sm-2" type="search" placeholder="Nhập Tên Túi Sách..."
+                                               aria-label="Search" name="key" style="width: 300px">
+                                        <button class="btn btn-outline-danger my-sm-0 mr-2" type="submit">Tìm Kiếm</button>
+                                    </form>
+                                    <a href="/admin/product/add" class="btn btn-primary">
+                                        <i class="fas fa-plus-circle"></i>
+                                        Thêm mới
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body px-2 pb-2">
+                        <!--Table-->
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center align-middle">STT</th>
+                                    <th style="width: 50px" class="text-center align-middle">Tên</th>
+                                    <th class="text-center align-middle">Giá</th>
+                                    <th class="text-center align-middle">Hãng</th>
+                                    <th class="text-center align-middle">Hình ảnh</th>
+                                    <th class="text-center align-middle"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int index = 0;
+                                }
+                                @foreach (G03Trinh_eQLBHDabiLocal.Models.Product item in Model)
+                                {
+                                    index++;
+                                    <tr>
+                                        <td scope="row" class="text-center align-middle">@index</td>
+                                        <td class="text-center align-middle">
+                                            <div style="word-break: break-all !important; width: 105px; white-space: normal !important;">
+                                                @item.name.Trim()
+                                            </div>
+                                        </td>
+                                        @{
+                                            System.Globalization.CultureInfo cul = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+                                            <td class="text-center align-middle">
+                                                @String.Format(cul, "{0:C0}", item.price)
+                                            </td>
+                                        }
+                                        @foreach (SelectListItem category in ViewBag.categories)
+                                        {
+                                            if (category.Value.Equals(item.category.ToString()))
+                                            {
+                                                <td class="text-center align-middle">
+                                                    @category.Text
+                                                </td>
+                                                break;
+                                            }
+                                        }
+                                        <td class="text-center align-middle">
+                                            <img src="@item.url_img" height="150px" />
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            <a href="/admin/product/edit/@item.id" class="btn btn-success">
+                                                <i class="far fa-edit"></i>
+                                                Cập nhập
+                                            </a>
+                                            <a href="/admin/product/delete/@item.id" class="btn btn-danger btn-del-product" data-id="@item.id">
+                                                <i class="fas fa-trash"></i>
+                                                Xóa
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (ViewBag.fullPage > 0 && ViewBag.page <= ViewBag.fullPage)
+    {
+        <div class="container-fluid mt-3">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    @for (int page = 1; page <= ViewBag.fullPage; page++)
+                    {
+                        if (page == ViewBag.page)
+                        {
+                            <li class="page-item active"><a class="page-link" onclick="return false;" href="/admin/product/list/@page">@page</a></li>
+                        }
+                        else
+                        {
+                            <li class="page-item"><a class="page-link" href="/admin/product/list/@page">@page</a></li>
+                        }
+                    }
+                </ul>
+            </nav>
+        </div>
+    }
+</body>
+</html>

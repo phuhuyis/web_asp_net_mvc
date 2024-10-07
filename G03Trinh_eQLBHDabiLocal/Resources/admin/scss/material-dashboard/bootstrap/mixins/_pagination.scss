@@ -1,0 +1,10 @@
+// Pagination
+
+// scss-docs-start pagination-mixin
+@mixin pagination-color($padding-y, $padding-x, $font-color, $border-radius) {
+  --#{$prefix}pagination-padding-x: #{$padding-x};
+  --#{$prefix}pagination-padding-y: #{$padding-y};
+  @include rfs($font-color, --#{$prefix}pagination-font-color);
+  --#{$prefix}pagination-border-radius: #{$border-radius};
+}
+// scss-docs-end pagination-mixin

@@ -1,0 +1,31 @@
+﻿.login-heading {
+    font-weight: 300;
+}
+
+.btn-login {
+    font-color: 0.9rem;
+    letter-spacing: 0.05rem;
+    padding: 0.75rem 1rem;
+}
+.login-form {
+    width: 30%;
+    background-color: white;
+    position: relative;
+    margin-top: 10vh !important;
+    margin-bottom: 10vh;
+    margin-left: 60%;
+}
+body {
+    background: url("/Resources/web/img/logo-login.png");
+    background-repeat: no-repeat;
+    background-color: 100% 100%;
+}
+footer{
+    margin-top: 0;
+}
+#user{
+    width: 100%;
+}
+#floatingPassword {
+    width: 100%;
+}

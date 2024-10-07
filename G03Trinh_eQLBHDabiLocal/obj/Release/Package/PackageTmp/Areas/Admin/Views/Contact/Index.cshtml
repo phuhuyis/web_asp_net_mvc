@@ -1,0 +1,91 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/Layouts/LayoutAdmin.cshtml";
+}
+@model List<Website.Entity.contact>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+        <div class="container-fluid py-1 px-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Trang</a></li>
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Liên hệ</li>
+                </ol>
+                <h6 class="font-weight-bolder mb-0">Liên hệ</h6>
+            </nav>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+
+    <div class="container-fluid">
+        <!--Table-->
+        <div class="row mt-5">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="row">
+                            <div class="col-lg-6 col-7">
+                                <h6>Danh sách thông tin liên hệ</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body px-2 pb-2">
+                        <!--Table-->
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-center align-middle">STT</th>
+                                    <th scope="col" class="text-center align-middle">Khách hàng</th>
+                                    <th scope="col" class="text-center align-middle">Tiêu đề</th>
+                                    <th scope="col" class="text-center align-middle">Nội dung</th>
+                                    <th scope="col" class="text-center align-middle"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int index = 0;
+                                }
+                                @foreach (Website.Entity.contact item in Model)
+                                {
+                                    index++;
+                                    <tr>
+                                        <td scope="row" class="text-center align-middle">@index</td>
+                                        <td class="text-center align-middle">
+                                            @item.customer1.name
+                                            @foreach (SelectListItem selectListItem in Website.Common.Constant.statusContact)
+                                            {
+                                                if (selectListItem.Value.Equals(item.status.ToString()))
+                                                {
+                                                    <span class="badge @Html.Raw(selectListItem.Selected ? "badge-primary" : "badge-secondary")">@selectListItem.Text</span>
+                                                }
+                                            }
+                                        </td>
+                                        <td class="text-center align-middle">@item.title</td>
+                                        <td class="text-center align-middle" style="word-break: break-all !important; width: 105px; white-space: normal !important;">@item.content</td>
+                                        <td class="text-center align-middle">
+                                            <a href="/admin/contact/edit/@item.id" class="btn btn-success handle-contact" data-id="@item.id">
+                                                <i class="far fa-edit"></i>
+                                                Đã xử lý
+                                            </a>
+                                            <a href="/admin/contact/edit/@item.id" class="btn btn-danger no-handle-contact" data-id="@item.id">
+                                                <i class="fas fa-trash"></i>
+                                                Chưa xử lý
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
